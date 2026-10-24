@@ -2,7 +2,7 @@ import streamlit as st
 import pandas as pd
 import matplotlib.pyplot as plt
 
-from core import OpenAIAnalyzer
+from core.gemini_analyzer import GeminiAnalyzer
 from core.validator import validate_csv
 from core.models import MODEL_OPTIONS
 
@@ -40,8 +40,13 @@ def render_dashboard(df: pd.DataFrame, summary: str) -> None:
 def main() -> None:
     st.set_page_config(page_title="Customer Feedback Analyzer", layout="wide")
     st.title("🧠 AI-Powered Customer Feedback Analyzer")
+    st.caption("Powered by Google Gemini")
 
-    model_choice = st.selectbox("Select GPT Model", MODEL_OPTIONS, index=2)
+    model_choice = st.selectbox(
+    "Select Gemini Model",
+    MODEL_OPTIONS,
+    index=0,
+    )
     uploaded_file = st.file_uploader("Upload a CSV file with a 'Feedback' column", type=["csv"])
     column_name = "feedback"
 
@@ -54,9 +59,11 @@ def main() -> None:
 
                 if st.button("Analyze Feedback"):
                     try:
-                        with st.spinner("Analyzing with OpenAI..."):
-                            analyzer = OpenAIAnalyzer(model=model_choice)
-                            analyzed_df, summary = analyze_feedback_df(df, analyzer, column_name)
+                        with st.spinner("Analyzing with Gemini..."):
+                            analyzer = GeminiAnalyzer(model=model_choice)
+                            analyzed_df, summary = analyze_feedback_df(
+                                df, analyzer, column_name
+                            )
                         render_dashboard(analyzed_df, summary)
                         # Encode analyzed DataFrame as CSV for download
                         csv = analyzed_df.to_csv(index=False).encode('utf-8')

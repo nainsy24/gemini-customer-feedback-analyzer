@@ -1,6 +1,7 @@
+
 pytest
 python-dotenv
-openai
+google-genai
 pandas
 matplotlib
 streamlit

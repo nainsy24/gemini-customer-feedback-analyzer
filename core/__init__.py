@@ -1,3 +1,3 @@
-from .openai_analyzer import OpenAIAnalyzer
+from .gemini_analyzer import GeminiAnalyzer
 
-__all__ = ["OpenAIAnalyzer"]
+__all__ = ["GeminiAnalyzer"]
